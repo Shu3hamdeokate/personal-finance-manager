@@ -1,2 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://db.crqhiarrijdsltholbzr.supabase.co:5432/postgres
+    username: postgres
+    password: Shubham@6888
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
 server:
   port: 8080
+
