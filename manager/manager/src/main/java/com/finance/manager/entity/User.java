@@ -27,5 +27,11 @@ public class User {
     private String password;
 
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Account> accounts;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transaction> transactions;
 }
 
