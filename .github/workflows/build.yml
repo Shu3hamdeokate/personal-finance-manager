@@ -19,15 +19,17 @@ jobs:
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '17' # Specify your required Java version
+          java-version: '21' # Specify your required Java version
           distribution: 'temurin' # Use a reliable distribution like Temurin
           cache: 'gradle' # Cache Gradle dependencies for faster builds
 
       # C. Run the Gradle Build Command
       - name: Grant execute permission for gradlew
-        run: chmod +x gradlew # Ensure the Gradle wrapper is executable
+        run: |
+          cd manager/manager
+          chmod +x gradlew
 
       - name: Build with Gradle
-        # The '--no-daemon' flag is often used in CI environments
-        # The 'build' task typically includes compile, test, and jar/package
-        run: ./gradlew build --no-daemon
+        run: |
+          cd manager/manager
+          ./gradlew build --no-daemon
