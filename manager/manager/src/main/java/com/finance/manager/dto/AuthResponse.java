@@ -1,9 +1,12 @@
 package com.finance.manager.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-@Getter @Setter @AllArgsConstructor
+@Getter
+@AllArgsConstructor
 public class AuthResponse {
     private String token;
+    private String type;
 }
 

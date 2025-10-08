@@ -1,3 +1,9 @@
+app:
+  jwt:
+    secret: "b2f8e1c7a9d4e6f3b7c2a1e9d8f6b3c7e1a9d4e6f3b7c2a1e9d8f6b3c7e1a9d4e6f3b7c2a1e9d8f6b3c7e1a9d4e6f3"
+    expiration: 86400000
+
+
 spring:
   datasource:
     url: jdbc:postgresql://db.crqhiarrijdsltholbzr.supabase.co:5432/postgres
