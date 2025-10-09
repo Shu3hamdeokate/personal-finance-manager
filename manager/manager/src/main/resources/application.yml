@@ -3,6 +3,13 @@ app:
     secret: "b2f8e1c7a9d4e6f3b7c2a1e9d8f6b3c7e1a9d4e6f3b7c2a1e9d8f6b3c7e1a9d4e6f3b7c2a1e9d8f6b3c7e1a9d4e6f3"
     expiration: 86400000
 
+task:
+  execution:
+    pool:
+      core-size: 2
+      max-size: 10
+      queue-capacity: 100
+    thread-name-prefix: Async-Email-
 
 spring:
   datasource:
@@ -16,6 +23,19 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: financeapp587@gmail.com
+    password: pryqihfnzaqjwytg
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: trueō
 
 server:
   port: 8080

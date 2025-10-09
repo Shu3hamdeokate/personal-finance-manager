@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -25,7 +24,7 @@ public class Transaction {
     private Account account;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Column(nullable = false)
@@ -33,16 +32,13 @@ public class Transaction {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private TransactionType type;
+    private TransactionType type; // INCOME or EXPENSE
 
     @Column(nullable = false)
-    private String category; // e.g., "Food", "Rent"
+    private String category; // e.g., "Groceries", "Rent", "Salary"
 
     private String description;
 
     @Column(nullable = false)
-    private LocalDate date = LocalDate.now();
-
-    private final LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime date;
 }
-

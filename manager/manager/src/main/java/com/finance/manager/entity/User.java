@@ -39,4 +39,13 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transaction> transactions = new ArrayList<>();
+
+    @Column(nullable = false)
+    @Builder.Default
+    private Boolean isVerified = false;
+
+    @Column(length = 64, unique = true)
+    private String verificationToken;
+
+    private LocalDateTime tokenExpiryDate;
 }

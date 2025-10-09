@@ -1,12 +1,11 @@
 package com.finance.manager.controller;
 
-import com.finance.manager.dto.TransactionDTO;
-import com.finance.manager.entity.Transaction;
-import com.finance.manager.entity.User;
+import com.finance.manager.dto.TransactionRequest;
+import com.finance.manager.dto.TransactionResponse;
 import com.finance.manager.service.TransactionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -16,19 +15,21 @@ public class TransactionController {
 
     private final TransactionService transactionService;
 
-    // NOTE: Replace with actual authenticated user retrieval
-    private User getCurrentUser() {
-        // TODO: integrate JWT authentication
-        return new User(); // placeholder
+    @PostMapping
+    public ResponseEntity<TransactionResponse> createTransaction(@RequestBody TransactionRequest request) {
+        TransactionResponse response = transactionService.createTransaction(request);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public List<TransactionDTO> getTransactions() {
-        return transactionService.getAllTransactions(getCurrentUser());
+    public ResponseEntity<List<TransactionResponse>> getAllTransactions() {
+        List<TransactionResponse> transactions = transactionService.getAllTransactions();
+        return ResponseEntity.ok(transactions);
     }
 
-    @PostMapping
-    public TransactionDTO createTransaction(@RequestBody Transaction transaction) {
-        return transactionService.createTransaction(transaction, getCurrentUser());
+    @GetMapping("/account/{accountId}")
+    public ResponseEntity<List<TransactionResponse>> getTransactionsByAccount(@PathVariable Long accountId) {
+        List<TransactionResponse> transactions = transactionService.getTransactionsByAccount(accountId);
+        return ResponseEntity.ok(transactions);
     }
 }
