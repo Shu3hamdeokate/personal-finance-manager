@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name = "accounts")
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Account {
@@ -27,7 +27,7 @@ public class Account {
     private AccountType type;
 
     @Column(nullable = false, precision = 19, scale = 4)
-    private BigDecimal balance = BigDecimal.ZERO;
+    private BigDecimal balance;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

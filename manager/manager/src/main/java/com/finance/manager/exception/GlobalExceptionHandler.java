@@ -2,6 +2,7 @@ package com.finance.manager.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -83,5 +84,29 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .body(Map.of("error", "Conflict", "message", ex.getMessage()));
+    }
+
+    /**
+     * Handles exceptions when a user tries to access a resource (Account/Transaction)
+     * that they do not own. Returns HTTP 403 Forbidden.
+     */
+    @ExceptionHandler(ResourceAccessException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ResponseEntity<Map<String, String>> handleResourceAccessException(ResourceAccessException ex) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(Map.of("error", "Forbidden", "message", ex.getMessage()));
+    }
+
+    /**
+     * Handles exceptions when a user account is not verified (DisabledException).
+     * Returns HTTP 403 Forbidden or 401 Unauthorized, depending on the use case.
+     */
+    @ExceptionHandler(DisabledException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ResponseEntity<Map<String, String>> handleDisabledException(DisabledException ex) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(Map.of("error", "Account Not Verified", "message", ex.getMessage()));
     }
 }

@@ -3,13 +3,11 @@ package com.finance.manager.dto;
 import com.finance.manager.entity.TransactionType;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
-@Setter
 @Builder
 public class TransactionResponse {
     private Long id;
@@ -19,5 +17,5 @@ public class TransactionResponse {
     private TransactionType type;
     private String category;
     private String description;
-    private LocalDateTime date;
+    private LocalDate date;
 }

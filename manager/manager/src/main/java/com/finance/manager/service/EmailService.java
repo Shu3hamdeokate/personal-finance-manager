@@ -13,7 +13,6 @@ public class EmailService {
 
     private final JavaMailSender mailSender;
 
-    // Get sender email from application.properties
     @Value("${spring.mail.username}")
     private String senderEmail;
 

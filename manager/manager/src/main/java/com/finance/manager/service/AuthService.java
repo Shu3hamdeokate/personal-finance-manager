@@ -28,7 +28,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
-    private final EmailService emailService; // Injected for sending mail
+    private final EmailService emailService;
 
     private void generateAndSendNewToken(User user) {
         String verificationToken = UUID.randomUUID().toString();
@@ -55,21 +55,17 @@ public class AuthService {
                 .isVerified(false)
                 .build();
 
-        // 1. Save user in a non-verified state
         userRepository.save(user);
 
-        // 2. Generate token and send email (asynchronously)
         generateAndSendNewToken(user);
     }
 
     @Transactional(readOnly = true)
     public AuthResponse login(AuthRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
-                // Throw BadCredentialsException to return 401 (Unauthorized)
                 .orElseThrow(() -> new BadCredentialsException("Invalid email or password."));
 
         if (!user.getIsVerified()) {
-            // Throw DisabledException which will be caught by GlobalExceptionHandler
             throw new DisabledException("Account not verified. Please check your email or request a new link.");
         }
 
@@ -89,7 +85,7 @@ public class AuthService {
         }
 
         user.setIsVerified(true);
-        user.setVerificationToken(null); // Clear token after use
+        user.setVerificationToken(null);
         user.setTokenExpiryDate(null);
         userRepository.save(user);
     }
@@ -97,14 +93,11 @@ public class AuthService {
     @Transactional
     public void resendVerificationEmail(String email) {
         User user = userRepository.findByEmail(email)
-                // Use a generic exception here to maintain security (don't expose user existence)
                 .orElseThrow(() -> new IllegalArgumentException("Verification request processed. Check your inbox."));
 
         if (user.getIsVerified()) {
             throw new IllegalArgumentException("User is already verified.");
         }
-
-        // Generate and send new token
         generateAndSendNewToken(user);
     }
 }

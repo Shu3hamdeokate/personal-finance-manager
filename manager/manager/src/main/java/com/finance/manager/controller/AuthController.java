@@ -32,11 +32,9 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-    /** Public endpoint for email verification (hit by the email link) */
     @GetMapping("/verify")
     public ResponseEntity<String> verifyEmail(@RequestParam("token") String token) {
         authService.verifyUser(token);
-        // Success response
         return ResponseEntity.ok("Success! Your email has been verified. You can now log in.");
     }
 
@@ -46,12 +44,8 @@ public class AuthController {
         try {
             authService.resendVerificationEmail(email);
         } catch (IllegalArgumentException e) {
-            // Log the failure (e.g., user not found, already verified)
-            // but return 204 to the client for security reasons (don't expose if email exists)
             System.err.println("Resend failed (silent for security): " + e.getMessage());
         }
-
-        // Return 204 NO CONTENT regardless of success/failure for security
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
